@@ -44,7 +44,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: [Aws-netflix]  # Replace 'self-hosted' with the appropriate runner label if necessary
+    runs-on: [self-hosted, Aws-netflix]  # Replace 'self-hosted' with the appropriate runner label if necessary
     steps:
       - name: Pull the Docker image
         run: docker pull jall1985/netflix:latest
