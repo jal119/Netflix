@@ -1,4 +1,4 @@
-name: Build, Analyze, Scan
+name: Build, Analyze, Scan, Deploy
 
 on:
   push:
@@ -41,3 +41,16 @@ jobs:
           docker push jall1985/netflix:latest
         env:
           DOCKER_CLI_ACI: 1
+
+  deploy:
+    needs: build
+    runs-on: [Aws-netflix]  # Replace 'self-hosted' with the appropriate runner label if necessary
+    steps:
+      - name: Pull the Docker image
+        run: docker pull jall1985/netflix:latest
+
+      - name: Trivy image scan
+        run: trivy image jall1985/netflix:latest
+
+      - name: Run the container netflix
+        run: docker run -d --name netflix -p 8081:80 jall1985/netflix:latest
